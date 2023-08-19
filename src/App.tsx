@@ -72,7 +72,7 @@ const App: React.FC = () => {
         <div className='slider'>
           <Slider defaultValue={0} onAfterChange={handleChange} max={5} min={-5} />
         </div>
-        <Button type='primary' onClick={handleSubmit} className='button' loading={loading}>上传</Button>
+        <Button type='primary' onClick={handleSubmit} className='button' loading={loading}>{ loading ? '处理中' : '上传' }</Button>
         {audioSrc &&
           <ReactAudioPlayer
             src={'http://jssz-inner-boss.bilibili.co/mundo_log/chunbuwan.wav?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=fUoYnMWXGBeCwC4G%2F20230818%2F%2Fs3%2Faws4_request&X-Amz-Date=20230818T102413Z&X-Amz-Expires=300&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=c76088eb648458d22310455f8f970c1b8942a7587573b6b8d1f5fc17765352b5'}
