@@ -36,7 +36,8 @@ const VoiceUpload: React.FC<VoiceUploadProps> = ({ onUpload }) => {
       console.log(file)
       onUpload(file);
       return false;
-    }
+    },
+    maxCount: 1,
   }
 
   return (

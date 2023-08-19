@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Select, Button, message, Slider } from 'antd';
+import { Select, Button, message, Slider, Tabs } from 'antd';
+import { ShareAltOutlined } from '@ant-design/icons';
 import { RcFile } from 'antd/lib/upload/interface';
 import ReactAudioPlayer from 'react-audio-player';
 import VoiceUpload from './components/VoiceUpload';
@@ -15,6 +16,17 @@ const App: React.FC = () => {
 
   const options = [
     { value: 1, label: '牧濑红莉栖' },
+  ];
+
+  const tabItems = [
+    {
+      key: '1',
+      label: '首页',
+    },
+    {
+      key: '2',
+      label: '社群',
+    }
   ];
 
   const handleSelect = (val: number) => {
@@ -59,6 +71,7 @@ const App: React.FC = () => {
   return (
     <>
       <div className='container'>
+        <Tabs defaultActiveKey='1' items={tabItems} />
         <div className='title'>Hello World!</div>
         <VoiceUpload onUpload={handleUpload} />
         <div className='label'>请选择声线</div>
@@ -74,10 +87,13 @@ const App: React.FC = () => {
         </div>
         <Button type='primary' onClick={handleSubmit} className='button' loading={loading}>{ loading ? '处理中' : '上传' }</Button>
         {audioSrc &&
-          <ReactAudioPlayer
-            src={'http://jssz-inner-boss.bilibili.co/mundo_log/chunbuwan.wav?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=fUoYnMWXGBeCwC4G%2F20230818%2F%2Fs3%2Faws4_request&X-Amz-Date=20230818T102413Z&X-Amz-Expires=300&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=c76088eb648458d22310455f8f970c1b8942a7587573b6b8d1f5fc17765352b5'}
-            controls
-          />
+          <>
+            <ReactAudioPlayer
+              src={audioSrc}
+              controls
+            />
+            <Button icon={<ShareAltOutlined />} type='primary' className='share-icon' />
+          </>
         }
       </div>
     </>
