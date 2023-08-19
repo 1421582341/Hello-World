@@ -13,6 +13,7 @@
     "@ant-design/icons": "^5.2.5",
     "antd": "^5.8.3",
     "axios": "^1.4.0",
+    "copy-to-clipboard": "^3.3.3",
     "react": "^18.2.0",
     "react-audio-player": "^0.17.0",
     "react-dom": "^18.2.0"

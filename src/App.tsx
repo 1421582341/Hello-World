@@ -5,6 +5,7 @@ import { RcFile } from 'antd/lib/upload/interface';
 import ReactAudioPlayer from 'react-audio-player';
 import VoiceUpload from './components/VoiceUpload';
 import axios from 'axios';
+import copy from 'copy-to-clipboard';
 import './App.less'
 
 const App: React.FC = () => {
@@ -40,6 +41,11 @@ const App: React.FC = () => {
   const handleChange = (val: number) => {
     setKey(val);
   };
+  
+  const handleCopy = () => {
+    copy(audioSrc!);
+    message.success('链接复制成功');
+  }
 
   const handleSubmit = () => {
     const data = new FormData()
@@ -92,7 +98,7 @@ const App: React.FC = () => {
               src={audioSrc}
               controls
             />
-            <Button icon={<ShareAltOutlined />} type='primary' className='share-icon' />
+            <Button icon={<ShareAltOutlined />} type='primary' className='share-icon' onClick={handleCopy} />
           </>
         }
       </div>
