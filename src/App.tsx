@@ -38,9 +38,11 @@ const App: React.FC = () => {
         message.success('上传成功');
         const polling = setInterval(() => {
           axios.get(`http://127.0.0.1:8000/download?token=${res.data.token}`).then(res => {
-            if (res.status === 200) {
+            if (res.data.code == 1000) {
               setAudioSrc(res.data.file);
               clearInterval(polling);
+            } else if (res.data.code == 1002) {
+              message.error('处理失败');
             }
           });
         }, 1000);
@@ -69,7 +71,7 @@ const App: React.FC = () => {
         <Button type='primary' onClick={handleSubmit} className='button'>上传</Button>
         {audioSrc &&
           <ReactAudioPlayer
-            src={audioSrc}
+            src={'http://jssz-inner-boss.bilibili.co/mundo_log/chunbuwan.wav?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=fUoYnMWXGBeCwC4G%2F20230818%2F%2Fs3%2Faws4_request&X-Amz-Date=20230818T102413Z&X-Amz-Expires=300&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=c76088eb648458d22310455f8f970c1b8942a7587573b6b8d1f5fc17765352b5'}
             controls
           />
         }
