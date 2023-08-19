@@ -11,6 +11,7 @@ const App: React.FC = () => {
   const [key, setKey] = useState(0);
   const [file, setFile] = useState<RcFile>();
   const [audioSrc, setAudioSrc] = useState<string>();
+  const [loading, setLoading] = useState(false);
 
   const options = [
     { value: 1, label: '牧濑红莉栖' },
@@ -33,16 +34,19 @@ const App: React.FC = () => {
     data.append('type', String(type));
     data.append('file', file as RcFile);
     data.append('key', String(key));
-    axios.post('http://127.0.0.1:8000/upload', data).then(res => {
+    axios.post('http://127.0.0.1:5000/upload', data).then(res => {
       if (res.status === 200) {
         message.success('上传成功');
+        setLoading(true);
         const polling = setInterval(() => {
-          axios.get(`http://127.0.0.1:8000/download?token=${res.data.token}`).then(res => {
+          axios.get(`http://127.0.0.1:5000/download?token=${res.data.token}`).then(res => {
             if (res.data.code == 1000) {
-              setAudioSrc(res.data.file);
+              setAudioSrc(res.data.data.file);
               clearInterval(polling);
+              setLoading(false);
             } else if (res.data.code == 1002) {
               message.error('处理失败');
+              setLoading(false);
             }
           });
         }, 1000);
@@ -68,7 +72,7 @@ const App: React.FC = () => {
         <div className='slider'>
           <Slider defaultValue={0} onAfterChange={handleChange} max={5} min={-5} />
         </div>
-        <Button type='primary' onClick={handleSubmit} className='button'>上传</Button>
+        <Button type='primary' onClick={handleSubmit} className='button' disabled={loading}>上传</Button>
         {audioSrc &&
           <ReactAudioPlayer
             src={'http://jssz-inner-boss.bilibili.co/mundo_log/chunbuwan.wav?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=fUoYnMWXGBeCwC4G%2F20230818%2F%2Fs3%2Faws4_request&X-Amz-Date=20230818T102413Z&X-Amz-Expires=300&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=c76088eb648458d22310455f8f970c1b8942a7587573b6b8d1f5fc17765352b5'}
