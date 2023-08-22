@@ -64,6 +64,7 @@ const App: React.FC = () => {
               setLoading(false);
             } else if (res.data.code == 1002) {
               message.error('处理失败');
+              clearInterval(polling);
               setLoading(false);
             }
           });
